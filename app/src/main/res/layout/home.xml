@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="neural.imagerecognizer.app.ui.activities.HomeActivity"
+    android:background="@drawable/home"
+    >
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/startbtn"
+        android:id="@+id/startbtn"
+        android:layout_above="@+id/vocabtn"
+        android:layout_alignLeft="@+id/vocabtn"
+        android:layout_alignStart="@+id/vocabtn"
+        android:layout_marginBottom="12dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/vocabtn"
+        android:id="@+id/vocabtn"
+        android:layout_marginBottom="12dp"
+        android:layout_above="@+id/helpbtn"
+        android:layout_alignLeft="@+id/helpbtn"
+        android:layout_alignStart="@+id/helpbtn" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/helpbtn"
+        android:id="@+id/helpbtn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="70dp" />
+
+    <ImageView
+        android:id="@+id/abclogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/abclogo"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        tools:ignore="ContentDescription" />
+
+
+</RelativeLayout>

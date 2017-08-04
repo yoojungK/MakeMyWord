@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="neural.imagerecognizer.app.ui.activities.HomeActivity"
+    android:layout_width="259dp"
+    android:layout_height="129dp"
+    tools:ignore="GradleDependency">
+
+    <Button
+        android:id="@+id/closeicon"
+        android:layout_width="11.54dp"
+        android:layout_height="11.54dp"
+        android:background="@drawable/closeicon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        android:layout_marginBottom="102.46dp"/>
+
+    <ImageView
+        android:id="@+id/nulltext"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:background="@drawable/nulltext"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginBottom="40dp" />
+</android.support.constraint.ConstraintLayout>

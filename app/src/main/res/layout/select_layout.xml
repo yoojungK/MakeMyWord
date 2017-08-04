@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="neural.imagerecognizer.app.ui.activities.HomeActivity"
+    android:background="@drawable/home"
+    >
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/cambtn"
+        android:id="@+id/cambtn"
+        android:layout_above="@+id/galbtn"
+        android:layout_alignLeft="@+id/galbtn"
+        android:layout_alignStart="@+id/galbtn"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/galbtn"
+        android:id="@+id/galbtn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="165dp" />
+
+
+</RelativeLayout>
