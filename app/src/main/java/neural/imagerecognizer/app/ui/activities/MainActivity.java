@@ -251,13 +251,14 @@ public class MainActivity extends BaseActivity {
                                                 }
 
                                                 Toast.makeText(getApplicationContext(),          // 현재 화면의 제어권자
-                                                        "저장성공"+data, // 보여줄 메시지
+                                                        engtext + " 저장 성공", // 보여줄 메시지
                                                         Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
                                                         .show();    // 토스트를 화면에 보여주기
                                             } //save onClick
                                         });
 
                                         checkDialog.show();
+                                        mDialog.dismiss();
                                     }
                                 });
 
@@ -320,11 +321,9 @@ public class MainActivity extends BaseActivity {
                                         save.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                //Internal Storage에 file 저장하기
                                                 String data= ans[0] +"\n"+bbobject.getText().toString();//.getText().toString(); //EditText에서 Text 얻어오기
 
                                                 try {
-                                                    //FileOutputStream 객체생성, 파일명 "data.txt", 새로운 텍스트 추가하기 모드
                                                     FileOutputStream fos=openFileOutput("data.txt", Context.MODE_APPEND);
                                                     PrintWriter writer= new PrintWriter(fos);
 
@@ -336,12 +335,13 @@ public class MainActivity extends BaseActivity {
                                                     e.printStackTrace();
                                                 }
                                                 Toast.makeText(getApplicationContext(),          // 현재 화면의 제어권자
-                                                        "저장성공"+data, // 보여줄 메시지
+                                                        ans[0] + " 저장 성공", // 보여줄 메시지
                                                         Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
                                                         .show();    // 토스트를 화면에 보여주기  //
                                             }
                                         });
                                         checkDialog.show();
+                                        mDialog.dismiss();
                                     }
                                 });
 
@@ -349,7 +349,6 @@ public class MainActivity extends BaseActivity {
                             }
                             //    ToastImageDescription.show(MainActivity.this, msg);
 
-                            mDialog.dismiss();
 
                         } else {
                             //Toast.makeText(getApplicationContext(),"다시 입력하시오", Toast.LENGTH_LONG).show();

@@ -10,7 +10,6 @@ import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,14 +30,9 @@ import neural.imagerecognizer.app.ui.views.ListViewItem;
 
 public class WordActivity extends AppCompatActivity {
 
-  //  static final String[] LIST_MENU = new String[3] ;
-
     ArrayList<String> LIST_MENU = new ArrayList<String>();
     ListViewItem items ;
     ArrayList<String> TEMPLIST = new ArrayList<String>();
-  // private ArrayList<ListViewItem> newlistViewItemList = new ArrayList<ListViewItem>() ;
-  //  String check []= new String[5];
-   // TextView text;
 
     @Nullable
     private Bitmap recognBitmap;
@@ -48,9 +42,6 @@ public class WordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview_layout);
-       // text = (TextView)findViewById(R.id.text);
-
-        //LIST_MENU.add("apple\n사과");
 
         g = (RecognitionApp) getApplication();
 
@@ -60,15 +51,12 @@ public class WordActivity extends AppCompatActivity {
         final ListView listview ;
         final ListViewAdapter adapter;
 
-        // Adapter 생성
         adapter = new ListViewAdapter() ;
 
-        // 리스트뷰 참조 및 Adapter달기
         listview = (ListView) findViewById(R.id.listview1);
         listview.setAdapter(adapter);
 
         try {
-            //FileInputStream 객체생성, 파일명 "data.txt"
             FileInputStream fis=openFileInput("data.txt");
             BufferedReader reader= new BufferedReader(new InputStreamReader(fis));
 
@@ -96,7 +84,6 @@ public class WordActivity extends AppCompatActivity {
                 word = temp.substring(0, wordindex);
                 mean = temp.substring(wordindex+1);
 
-        //        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.abclogo),word,mean) ;
                 recognBitmap = g.getImg(i);
                 Drawable d = new BitmapDrawable(getResources(), recognBitmap);
                 adapter.addItem(d, word,mean);
@@ -107,40 +94,18 @@ public class WordActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+/*
         Toast.makeText(this,          // 현재 화면의 제어권자
                 "load 성공성공:\n"+ buffer.toString(), // 보여줄 메시지
                 Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
                 .show();    // 토스트를 화면에 보여주기  //
-/*
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, LIST_MENU) ;
-
-        ListView listview = (ListView) findViewById(R.id.listview1) ;
-        listview.setAdapter(adapter) ;
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-
-                // get TextView's Text.
-                String strText = (String) parent.getItemAtPosition(position) ;
-
-                // TODO : use strText
-
-            }
-        }) ;
 */
         Button deleteButton = (Button)findViewById(R.id.delete) ;
         deleteButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 SparseBooleanArray checkedItems = listview.getCheckedItemPositions();
                 int count = adapter.getCount() ;
-/*
-                for(int i=0; i<6;i++) {
-                    System.out.println(LIST_MENU.get(i));
-                }
-                System.out.println("\n\n");
-*/
+
                 for (int i = count-1; i >= 0; i--) {
                     if (checkedItems.get(i)) {
                         g.removeImg(i);
@@ -148,14 +113,12 @@ public class WordActivity extends AppCompatActivity {
                         adapter.removeItem(i);
                     }
                 }
-
                 // 모든 선택 상태 초기화.
                 listview.clearChoices() ;
                 adapter.notifyDataSetChanged();
                 saveItemsToFile();
             }
         }) ;
-
 
         Button selectAllButton = (Button)findViewById(R.id.selectAll) ;
         selectAllButton.setOnClickListener(new Button.OnClickListener() {
@@ -176,11 +139,11 @@ public class WordActivity extends AppCompatActivity {
         FileWriter fw = null ;
         BufferedWriter bufwr = null ;
 
-        Toast.makeText(this,          // 현재 화면의 제어권자
+       /* Toast.makeText(this,          // 현재 화면의 제어권자
                 "count:\n"+ g.count, // 보여줄 메시지
                 Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
                 .show();    // 토스트를 화면에 보여주기
-
+        */
         int c = 0;
         try {
             for(int i=0;i<g.count;i++){
