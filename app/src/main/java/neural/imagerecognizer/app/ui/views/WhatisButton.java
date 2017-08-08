@@ -25,11 +25,11 @@ public class WhatisButton extends Button {
 
     private void init() {
 
-        setBackgroundColor(Color.BLUE);
+        setBackgroundColor(Color.argb(150,102,204,102));
         setTextColor(Color.WHITE);
         setText(R.string.label_whatis);
 
-        ValueAnimator animatorBackground = ObjectAnimator.ofInt(this, "backgroundColor", Color.BLUE, Color.CYAN, Color.BLUE);
+        ValueAnimator animatorBackground = ObjectAnimator.ofInt(this, "backgroundColor", Color.argb(150,102,204,102), Color.argb(255,255,255,204), Color.argb(150,102,204,102));
 
         animatorBackground.setEvaluator(new ArgbEvaluator());
         animatorBackground.setDuration(ANIMATION_DURATION);

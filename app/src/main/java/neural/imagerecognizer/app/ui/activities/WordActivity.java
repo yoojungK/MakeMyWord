@@ -108,7 +108,8 @@ public class WordActivity extends AppCompatActivity {
 
                 for (int i = count-1; i >= 0; i--) {
                     if (checkedItems.get(i)) {
-                        g.removeImg(i);
+                        if(g.getImg(i)!=null)
+                           g.removeImg(i);
                         LIST_MENU.remove(i) ;
                         adapter.removeItem(i);
                     }

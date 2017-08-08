@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <neural.imagerecognizer.app.ui.views.CheckableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="360dp"
+    android:layout_height="150dp"
     android:descendantFocusability="blocksDescendants">
 
     <ImageView
@@ -10,31 +10,38 @@
         android:id="@+id/imageView1" />
 
     <LinearLayout
-        android:orientation="vertical"
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="4">
+
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:text="New Text"
             android:id="@+id/textView1"
-            android:textSize="24dp"
+            android:layout_width="169dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="New Text"
             android:textColor="#000000"
-            android:gravity="center_vertical" />
+            android:textSize="25dp"
+            android:textStyle="bold"
+            />
 
         <TextView
-            android:layout_width="200dp"
-            android:layout_height="75dp"
-            android:text="New Text"
             android:id="@+id/textView2"
-            android:textSize="16dp"
-            android:textColor="#666666" />
+            android:layout_width="169dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="63dp"
+            android:gravity="center"
+            android:text="New Text"
+            android:textColor="#666666"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <CheckBox
+        android:layout_marginBottom="113dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/checkBox1"

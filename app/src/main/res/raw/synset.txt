@@ -848,7 +848,7 @@ n04380533 table lamp
 n04389033 tank, army tank, armored combat vehicle, armoured combat vehicle
 n04392985 tape player
 n04398044 teapot
-n04399382 teddy, teddy bear
+n04399382 teddy bear, teddy
 n04404412 television, television system
 n04409515 tennis ball
 n04417672 thatch, thatched roof

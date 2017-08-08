@@ -62,20 +62,24 @@ public class PaintView extends ImageView {
     private static final float TOUCH_TOLERANCE = 4;
 
     private void touch_start(float x, float y) {
+      /*
         mPath.reset();
         mPath.moveTo(x, y);
         mX = x;
         mY = y;
+        */
     }
 
     private void touch_move(float x, float y) {
-        float dx = Math.abs(x - mX);
-        float dy = Math.abs(y - mY);
-        if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-            mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
-            mX = x;
-            mY = y;
-        }
+
+     //   float dx = Math.abs(x - mX);
+      //  float dy = Math.abs(y - mY);
+       // if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
+         //   mPath.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
+          //  mX = x;
+           // mY = y;
+
+        //}
     }
 
     @Override
