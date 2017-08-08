@@ -233,9 +233,11 @@ public class MainActivity extends BaseActivity {
                                         save.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                 String data = engtext +"\n"+bbobject.getText().toString();
+                                                String data = engtext +"\n"+bbobject.getText().toString();
+                                                //   String data= object.getText().toString(); //EditText에서 Text 얻어오기
 
                                                 try {
+                                                    //FileOutputStream 객체생성, 파일명 "data.txt", 새로운 텍스트 추가하기 모드
                                                     FileOutputStream fos=openFileOutput("data.txt", Context.MODE_APPEND);
                                                     PrintWriter writer= new PrintWriter(fos);
 
@@ -284,7 +286,7 @@ public class MainActivity extends BaseActivity {
                                 restart.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                         bDialog.dismiss();
+                                        bDialog.dismiss();
                                     }
                                 });
                                 check.setOnClickListener(new View.OnClickListener() {

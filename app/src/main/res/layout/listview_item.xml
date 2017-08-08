@@ -22,7 +22,7 @@
             android:gravity="center"
             android:text="New Text"
             android:textColor="#000000"
-            android:textSize="25dp"
+            android:textSize="19dp"
             android:textStyle="bold" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:gravity="center"
             android:text="New Text"
             android:textColor="#666666"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -46,7 +46,7 @@
         android:focusable="false"
         android:clickable="false"
         android:layout_weight="1" />
-    
+
 </neural.imagerecognizer.app.ui.views.CheckableLinearLayout>
 
 
