@@ -3,6 +3,7 @@ package neural.imagerecognizer.app.ui.activities;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -33,8 +34,10 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -43,6 +46,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.OnClick;
 import neural.imagerecognizer.app.R;
+import neural.imagerecognizer.app.RecognitionApp;
 import neural.imagerecognizer.app.nn.NNManager;
 import neural.imagerecognizer.app.ui.views.PaintView;
 import neural.imagerecognizer.app.ui.views.WhatisButton;
@@ -52,6 +56,8 @@ import neural.imagerecognizer.app.util.Tool;
 import static neural.imagerecognizer.app.R.id.engtext;
 
 public class MainActivity extends BaseActivity {
+
+
 
     public String ans[];
 
@@ -76,11 +82,14 @@ public class MainActivity extends BaseActivity {
     @Nullable
     private Bitmap recognBitmap;
 
+    public RecognitionApp g;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        g = (RecognitionApp) getApplication();
 
         if (android.os.Build.VERSION.SDK_INT > 9)
         {
@@ -142,14 +151,12 @@ public class MainActivity extends BaseActivity {
                 mic.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-
                         i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                         i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
                         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
                         i.putExtra(RecognizerIntent.EXTRA_PROMPT, "말을 하세요.");
 
                         startActivityForResult(i, GOOGLE_STT);
-
                     }
                 });
                 ok.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +165,6 @@ public class MainActivity extends BaseActivity {
                         if (object.getText().toString().trim().length() > 0 ) {
 
                             ans = msg.split(",");
-
 
                             if (isCorrect(object.getText().toString()) == 1) {
 
@@ -178,7 +184,6 @@ public class MainActivity extends BaseActivity {
                                     @Override
                                     public void onClick(View v) {
                                         aDialog.dismiss();
-
                                     }
                                 });
                                 restart.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +205,7 @@ public class MainActivity extends BaseActivity {
                                         final TextView aaobject = (TextView) checkDialog.findViewById(engtext);
                                         bbobject = (TextView) checkDialog.findViewById(R.id.kortext);
 
-                                        String engtext = object.getText().toString();
+                                        final String engtext = object.getText().toString();
 
                                         NaverTranslateTask asyncTask = new NaverTranslateTask();
                                         asyncTask.execute(engtext);
@@ -211,7 +216,6 @@ public class MainActivity extends BaseActivity {
                                             @Override
                                             public void onClick(View v) {
                                                 checkDialog.dismiss();
-
                                             }
                                         });
 
@@ -229,17 +233,35 @@ public class MainActivity extends BaseActivity {
                                         save.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
+                                                 String data = engtext +"\n"+bbobject.getText().toString();
+                                             //   String data= object.getText().toString(); //EditText에서 Text 얻어오기
 
-                                            }
+                                                try {
+                                                    //FileOutputStream 객체생성, 파일명 "data.txt", 새로운 텍스트 추가하기 모드
+                                                    FileOutputStream fos=openFileOutput("data.txt", Context.MODE_APPEND);
+                                                    PrintWriter writer= new PrintWriter(fos);
+
+                                                    writer.println(data);
+                                                    g.setImg(recognBitmap);
+
+                                                    writer.close();
+
+                                                } catch (FileNotFoundException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                                Toast.makeText(getApplicationContext(),          // 현재 화면의 제어권자
+                                                        "저장성공"+data, // 보여줄 메시지
+                                                        Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
+                                                        .show();    // 토스트를 화면에 보여주기
+                                            } //save onClick
                                         });
 
                                         checkDialog.show();
-
                                     }
                                 });
 
                                 aDialog.show();
-
                             }
                             else {
                                 //Toast.makeText(getApplicationContext(),"실패 입력" + object.getText().toString() + "정답 " + msg, Toast.LENGTH_LONG).show();
@@ -258,7 +280,6 @@ public class MainActivity extends BaseActivity {
                                     @Override
                                     public void onClick(View v) {
                                         bDialog.dismiss();
-
                                     }
                                 });
                                 restart.setOnClickListener(new View.OnClickListener() {
@@ -299,13 +320,30 @@ public class MainActivity extends BaseActivity {
                                         save.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                //
+                                                //Internal Storage에 file 저장하기
+                                                String data= ans[0] +"\n"+bbobject.getText().toString();//.getText().toString(); //EditText에서 Text 얻어오기
+
+                                                try {
+                                                    //FileOutputStream 객체생성, 파일명 "data.txt", 새로운 텍스트 추가하기 모드
+                                                    FileOutputStream fos=openFileOutput("data.txt", Context.MODE_APPEND);
+                                                    PrintWriter writer= new PrintWriter(fos);
+
+                                                    writer.println(data);
+                                                    g.setImg(recognBitmap);
+
+                                                    writer.close();
+                                                } catch (FileNotFoundException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                Toast.makeText(getApplicationContext(),          // 현재 화면의 제어권자
+                                                        "저장성공"+data, // 보여줄 메시지
+                                                        Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
+                                                        .show();    // 토스트를 화면에 보여주기  //
                                             }
                                         });
                                         checkDialog.show();
                                     }
                                 });
-
 
                                 bDialog.show();
                             }
@@ -511,6 +549,7 @@ public class MainActivity extends BaseActivity {
                 }).create();
         ad.show();
     }
+
     private class NaverTranslateTask extends AsyncTask<String, Void, String> {
 
         public String resultText;
@@ -580,6 +619,7 @@ public class MainActivity extends BaseActivity {
                     .getAsJsonObject().get("result");
             TranslatedItem items = gson.fromJson(rootObj.toString(), TranslatedItem.class);
             bbobject.setText(items.getTranslatedText());
+
         }
 
         private class TranslatedItem {
@@ -590,5 +630,4 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
-
 }

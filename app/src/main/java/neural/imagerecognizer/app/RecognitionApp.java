@@ -1,22 +1,25 @@
 package neural.imagerecognizer.app;
 
 import android.app.Application;
+import android.graphics.Bitmap;
+
 import neural.imagerecognizer.app.nn.NNManager;
 import neural.imagerecognizer.app.util.AppUncaughtExceptionHandler;
 import neural.imagerecognizer.app.util.ThreadManager;
-import neural.imagerecognizer.app.util.Tool;
-import org.dmlc.mxnet.Predictor;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class RecognitionApp extends Application {
     public static ThreadManager tm;
     private static RecognitionApp instance;
 
+    public static int count = 0;
+    public Bitmap[] img = new Bitmap[10000];
+
+    public void setImg (Bitmap b) {
+        img[count++] = b;
+    }
+    public Bitmap getImg (int index) {
+        return img[index];
+    }
 
     @Override
     public void onCreate() {

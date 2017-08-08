@@ -1,4 +1,4 @@
-package neural.imagerecognizer.app.ui.activities;
+package neural.imagerecognizer.app.ui.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

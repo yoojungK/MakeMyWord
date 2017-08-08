@@ -37,7 +37,6 @@ public class PaintView extends ImageView {
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeWidth(9);
 
-
         mPath = new Path();
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
     }

@@ -1,22 +1,29 @@
 package neural.imagerecognizer.app.util;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.*;
+import android.support.annotation.NonNull;
+import android.support.annotation.RawRes;
+import android.support.annotation.StringRes;
 import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
-import neural.imagerecognizer.app.RecognitionApp;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import neural.imagerecognizer.app.RecognitionApp;
 
 public final class Tool {
 

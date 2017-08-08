@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import neural.imagerecognizer.app.R;
 
@@ -34,11 +33,10 @@ public class HomeActivity extends Activity {
         Button vocabtn = (Button) findViewById(R.id.vocabtn);
         vocabtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), WordActivity.class);
                 startActivity(intent);
             }
         });
-
 
         Button helpbtn = (Button) findViewById(R.id.helpbtn);
         helpbtn.setOnClickListener(new View.OnClickListener() {
@@ -48,13 +46,11 @@ public class HomeActivity extends Activity {
                 dDialog.setTitle("도움말");
 
                 Button cancel = (Button) dDialog.findViewById(R.id.closeicon);
-
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override public void onClick(View v) {
                         dDialog.dismiss();
                     }
                 });
-
                 dDialog.show();
             }
         });

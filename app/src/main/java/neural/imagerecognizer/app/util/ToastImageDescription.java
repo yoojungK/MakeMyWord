@@ -3,10 +3,9 @@ package neural.imagerecognizer.app.util;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.TextureView;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import neural.imagerecognizer.app.R;
 
 public class ToastImageDescription {

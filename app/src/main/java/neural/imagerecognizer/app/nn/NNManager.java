@@ -1,20 +1,22 @@
 package neural.imagerecognizer.app.nn;
 
 import android.graphics.Bitmap;
-
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import neural.imagerecognizer.app.R;
-import neural.imagerecognizer.app.RecognitionApp;
-import neural.imagerecognizer.app.util.ThreadManager;
-import neural.imagerecognizer.app.util.Tool;
+
 import org.dmlc.mxnet.Predictor;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import neural.imagerecognizer.app.R;
+import neural.imagerecognizer.app.RecognitionApp;
+import neural.imagerecognizer.app.util.ThreadManager;
+import neural.imagerecognizer.app.util.Tool;
 
 public final class NNManager {
 
