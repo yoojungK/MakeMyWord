@@ -20,6 +20,16 @@ public class RecognitionApp extends Application {
     public Bitmap getImg (int index) {
         return img[index];
     }
+    public void removeImg (int index) {
+        setNull(index);
+        count --;
+    }
+    public void setNull(int index) {
+        img[index] = null;
+    }
+    public void setImage (int index, Bitmap b) {
+        img[index] = b;
+    }
 
     @Override
     public void onCreate() {

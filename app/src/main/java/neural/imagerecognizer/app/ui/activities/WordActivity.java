@@ -99,7 +99,8 @@ public class WordActivity extends AppCompatActivity {
         //        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.abclogo),word,mean) ;
                 recognBitmap = g.getImg(i);
                 Drawable d = new BitmapDrawable(getResources(), recognBitmap);
-                adapter.addItem(d, word,mean) ;
+                adapter.addItem(d, word,mean);
+
                 i++;
             }
 
@@ -142,7 +143,8 @@ public class WordActivity extends AppCompatActivity {
 */
                 for (int i = count-1; i >= 0; i--) {
                     if (checkedItems.get(i)) {
-                       LIST_MENU.remove(i) ;
+                        g.removeImg(i);
+                        LIST_MENU.remove(i) ;
                         adapter.removeItem(i);
                     }
                 }
@@ -174,6 +176,22 @@ public class WordActivity extends AppCompatActivity {
         FileWriter fw = null ;
         BufferedWriter bufwr = null ;
 
+        Toast.makeText(this,          // 현재 화면의 제어권자
+                "count:\n"+ g.count, // 보여줄 메시지
+                Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
+                .show();    // 토스트를 화면에 보여주기
+
+        int c = 0;
+        try {
+            for(int i=0;i<g.count;i++){
+                if (g.getImg(i) == null) {
+                    for(int j=i;j<g.count;j++) {
+                        g.setImage(j, g.getImg(j+1));
+                    }
+                }
+            }
+        }
+        catch(Exception e) {}
         try {
             // open file.
             fw = new FileWriter(file) ;
