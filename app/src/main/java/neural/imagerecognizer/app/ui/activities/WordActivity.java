@@ -167,17 +167,4 @@ public class WordActivity extends AppCompatActivity {
             e.printStackTrace() ;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

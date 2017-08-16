@@ -232,7 +232,6 @@ public class MainActivity extends BaseActivity {
                                         save.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-
                                                 String filename = "/vocaimg_"+System.currentTimeMillis()+".jpg" ;
 
                                                 String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -251,11 +250,7 @@ public class MainActivity extends BaseActivity {
                                                 } catch (FileNotFoundException e) {
                                                     e.printStackTrace();
                                                 }
-                                                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://"+ sdPath)));
-                                                Toast.makeText(getApplicationContext(),          // 현재 화면의 제어권자
-                                                        engtext + " 저장 성공", // 보여줄 메시지
-                                                        Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
-                                                        .show();    // 토스트를 화면에 보여주기
+                                                Toast.makeText(getApplicationContext(), engtext + " 저장 성공", Toast.LENGTH_LONG).show();
                                             } //save onClick
                                         });
 
@@ -313,7 +308,7 @@ public class MainActivity extends BaseActivity {
                                         sound.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                mTextString = new String[]{msg};
+                                                mTextString = new String[]{ans[0]};
 
                                                 mNaverTTSTask = new NaverTTSTask();
                                                 mNaverTTSTask.execute(mTextString);
