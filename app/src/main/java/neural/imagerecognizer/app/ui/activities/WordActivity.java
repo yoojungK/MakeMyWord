@@ -1,6 +1,7 @@
 package neural.imagerecognizer.app.ui.activities;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,7 +21,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import neural.imagerecognizer.app.R;
-import neural.imagerecognizer.app.RecognitionApp;
 import neural.imagerecognizer.app.ui.views.ListViewAdapter;
 import neural.imagerecognizer.app.ui.views.ListViewItem;
 
@@ -36,14 +36,13 @@ public class WordActivity extends AppCompatActivity {
 
     @Nullable
     private Bitmap recognBitmap;
-    public RecognitionApp g;
+
+    String sdPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview_layout);
-
-        g = (RecognitionApp) getApplication();
 
         StringBuffer buffer= new StringBuffer();
 
@@ -60,46 +59,53 @@ public class WordActivity extends AppCompatActivity {
             FileInputStream fis=openFileInput("data.txt");
             BufferedReader reader= new BufferedReader(new InputStreamReader(fis));
 
-            String str = reader.readLine();//한 줄씩 읽어오기
+            String str = reader.readLine();
             String str2 = reader.readLine();
+            String str3 = reader.readLine();
             String word;
             String mean;
+            String filename;
             String temp;
 
             int i =0;
             int wordindex;
+            int meanindex;
 
             while(str!=null){
-                LIST_MENU.add(str+"\n"+str2);
+                LIST_MENU.add(str+"\n"+str2 + "\n" + str3);
                 buffer.append(str+"\n");
 
-                str=reader.readLine();
-                str2=reader.readLine();
+                str = reader.readLine();
+                str2 = reader.readLine();
+                str3 = reader.readLine();
             }
 
             while(LIST_MENU.get(i) != null){
-
                 temp = LIST_MENU.get(i);
-                wordindex= temp.indexOf("\n");
+                wordindex = temp.indexOf("\n");
+                meanindex = temp.indexOf("\n", wordindex + 1);
                 word = temp.substring(0, wordindex);
-                mean = temp.substring(wordindex+1);
+                mean = temp.substring(wordindex + 1, meanindex);
+                filename = temp.substring(meanindex + 1);
 
-                recognBitmap = g.getImg(i);
-                Drawable d = new BitmapDrawable(getResources(), recognBitmap);
-                adapter.addItem(d, word,mean);
+                File imgFile = new File(filename);
+                Drawable d;
 
+                if(imgFile.exists()){
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                    d = new BitmapDrawable(getResources(), myBitmap);
+                }
+                else {
+                    d = null;
+                }
+                adapter.addItem(d, word, mean);
                 i++;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-/*
-        Toast.makeText(this,          // 현재 화면의 제어권자
-                "load 성공성공:\n"+ buffer.toString(), // 보여줄 메시지
-                Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
-                .show();    // 토스트를 화면에 보여주기  //
-*/
+
         Button deleteButton = (Button)findViewById(R.id.delete) ;
         deleteButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
@@ -108,13 +114,11 @@ public class WordActivity extends AppCompatActivity {
 
                 for (int i = count-1; i >= 0; i--) {
                     if (checkedItems.get(i)) {
-                        if(g.getImg(i)!=null)
-                           g.removeImg(i);
                         LIST_MENU.remove(i) ;
                         adapter.removeItem(i);
                     }
                 }
-                // 모든 선택 상태 초기화.
+
                 listview.clearChoices() ;
                 adapter.notifyDataSetChanged();
                 saveItemsToFile();
@@ -137,27 +141,10 @@ public class WordActivity extends AppCompatActivity {
     private void saveItemsToFile() {
         File file = new File(getFilesDir(), "data.txt") ;
 
-        FileWriter fw = null ;
-        BufferedWriter bufwr = null ;
+        FileWriter fw = null;
+        BufferedWriter bufwr = null;
 
-       /* Toast.makeText(this,          // 현재 화면의 제어권자
-                "count:\n"+ g.count, // 보여줄 메시지
-                Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
-                .show();    // 토스트를 화면에 보여주기
-        */
-        int c = 0;
         try {
-            for(int i=0;i<g.count;i++){
-                if (g.getImg(i) == null) {
-                    for(int j=i;j<g.count;j++) {
-                        g.setImage(j, g.getImg(j+1));
-                    }
-                }
-            }
-        }
-        catch(Exception e) {}
-        try {
-            // open file.
             fw = new FileWriter(file) ;
             bufwr = new BufferedWriter(fw) ;
 
@@ -165,13 +152,11 @@ public class WordActivity extends AppCompatActivity {
                 bufwr.write(str) ;
                 bufwr.newLine() ;
             }
-            // write data to the file.
             bufwr.flush() ;
         } catch (Exception e) {
             e.printStackTrace() ;
         }
         try {
-            // close file.
             if (bufwr != null) {
                 bufwr.close();
             }
@@ -182,4 +167,17 @@ public class WordActivity extends AppCompatActivity {
             e.printStackTrace() ;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

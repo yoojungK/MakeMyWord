@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -33,10 +34,13 @@ import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -46,7 +50,6 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.OnClick;
 import neural.imagerecognizer.app.R;
-import neural.imagerecognizer.app.RecognitionApp;
 import neural.imagerecognizer.app.nn.NNManager;
 import neural.imagerecognizer.app.ui.views.PaintView;
 import neural.imagerecognizer.app.ui.views.WhatisButton;
@@ -58,7 +61,7 @@ import static neural.imagerecognizer.app.R.id.engtext;
 public class MainActivity extends BaseActivity {
 
 
-
+    int imgcount=3;
     public String ans[];
 
     private Intent i;
@@ -82,14 +85,12 @@ public class MainActivity extends BaseActivity {
     @Nullable
     private Bitmap recognBitmap;
 
-    public RecognitionApp g;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        g = (RecognitionApp) getApplication();
 
         if (android.os.Build.VERSION.SDK_INT > 9)
         {
@@ -136,7 +137,6 @@ public class MainActivity extends BaseActivity {
             public void onResult(@NonNull String description) {
                 final String msg = description;
                 btnWhatis.endAnimation();
-                //set image description....
 
                 final Dialog mDialog = new Dialog(MainActivity.this);
                 mDialog.setContentView(R.layout.input_layout);
@@ -167,7 +167,6 @@ public class MainActivity extends BaseActivity {
                             ans = msg.split(",");
 
                             if (isCorrect(object.getText().toString()) == 1) {
-
                                 //Toast.makeText(getApplicationContext(),"성공 입력" + object.getText().toString() + "정답 " + msg, Toast.LENGTH_LONG).show();
                                 final Dialog aDialog = new Dialog(MainActivity.this);
                                 aDialog.setContentView(R.layout.success_layout);
@@ -233,23 +232,26 @@ public class MainActivity extends BaseActivity {
                                         save.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                String data = engtext +"\n"+bbobject.getText().toString();
-                                                //   String data= object.getText().toString(); //EditText에서 Text 얻어오기
+
+                                                String filename = "/vocaimg_"+System.currentTimeMillis()+".jpg" ;
+
+                                                String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+                                                sdPath += "/MMW";
 
                                                 try {
-                                                    //FileOutputStream 객체생성, 파일명 "data.txt", 새로운 텍스트 추가하기 모드
+                                                    String data = engtext +"\n"+bbobject.getText().toString() + "\n" + sdPath + filename;
+
                                                     FileOutputStream fos=openFileOutput("data.txt", Context.MODE_APPEND);
                                                     PrintWriter writer= new PrintWriter(fos);
 
                                                     writer.println(data);
-                                                    g.setImg(recognBitmap);
-
+                                                    SaveFileToFileCache(recognBitmap,sdPath, filename);
                                                     writer.close();
 
                                                 } catch (FileNotFoundException e) {
                                                     e.printStackTrace();
                                                 }
-
+                                                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://"+ sdPath)));
                                                 Toast.makeText(getApplicationContext(),          // 현재 화면의 제어권자
                                                         engtext + " 저장 성공", // 보여줄 메시지
                                                         Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
@@ -321,23 +323,26 @@ public class MainActivity extends BaseActivity {
                                         save.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                String data= ans[0] +"\n"+bbobject.getText().toString();//.getText().toString(); //EditText에서 Text 얻어오기
+                                                String filename = "/vocaimg_"+System.currentTimeMillis()+".jpg" ;
+
+                                                String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+                                                sdPath += "/MMW";
 
                                                 try {
+
+                                                    String data= ans[0] +"\n"+bbobject.getText().toString() + "\n" + sdPath + filename;
+
                                                     FileOutputStream fos=openFileOutput("data.txt", Context.MODE_APPEND);
                                                     PrintWriter writer= new PrintWriter(fos);
 
                                                     writer.println(data);
-                                                    g.setImg(recognBitmap);
-
+                                                    SaveFileToFileCache(recognBitmap,sdPath, filename);
                                                     writer.close();
+
                                                 } catch (FileNotFoundException e) {
                                                     e.printStackTrace();
                                                 }
-                                                Toast.makeText(getApplicationContext(),          // 현재 화면의 제어권자
-                                                        ans[0] + " 저장 성공", // 보여줄 메시지
-                                                        Toast.LENGTH_LONG)    // 보여줄 기간 (길게, 짧게)
-                                                        .show();    // 토스트를 화면에 보여주기  //
+                                                Toast.makeText(getApplicationContext(), ans[0] + " 저장 성공", Toast.LENGTH_LONG).show();
                                             }
                                         });
                                         checkDialog.show();
@@ -347,11 +352,8 @@ public class MainActivity extends BaseActivity {
 
                                 bDialog.show();
                             }
-                            //    ToastImageDescription.show(MainActivity.this, msg);
-
 
                         } else {
-                            //Toast.makeText(getApplicationContext(),"다시 입력하시오", Toast.LENGTH_LONG).show();
                             final Dialog cDialog = new Dialog(MainActivity.this);
                             cDialog.setContentView(R.layout.null_layout);
                             cDialog.setTitle("공란");
@@ -363,7 +365,6 @@ public class MainActivity extends BaseActivity {
                                     cDialog.dismiss();
                                 }
                             });
-
                             cDialog.show();
                         }
                     }
@@ -374,7 +375,6 @@ public class MainActivity extends BaseActivity {
                         mDialog.dismiss();
                     }
                 });
-
                 mDialog.show();
             }
         });
@@ -629,4 +629,38 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
+
+
+    // Bitmap to File
+    public  void SaveFileToFileCache(Bitmap bitmap, String strFilePath,
+                                       String filename) {
+
+        File file = new File(strFilePath);
+
+        // If no folders
+        if (!file.exists()) {
+            file.mkdirs();
+            // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+        }
+
+        File fileCacheItem = new File(strFilePath + filename);
+        OutputStream out = null;
+
+        try {
+            fileCacheItem.createNewFile();
+            out = new FileOutputStream(fileCacheItem);
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }
