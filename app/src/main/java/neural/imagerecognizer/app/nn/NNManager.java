@@ -20,7 +20,6 @@ import neural.imagerecognizer.app.util.Tool;
 
 public final class NNManager {
 
-
     private List<String> dict;
     private Map<String, Float> mean;
 

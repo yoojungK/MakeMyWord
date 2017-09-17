@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <neural.imagerecognizer.app.ui.views.CheckableLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="360dp"
     android:layout_height="150dp"
     android:descendantFocusability="blocksDescendants">
@@ -38,15 +39,28 @@
 
     </LinearLayout>
 
-    <CheckBox
-        android:layout_marginBottom="113dp"
+    <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/checkBox1"
-        android:focusable="false"
-        android:clickable="false"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <CheckBox
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox1"
+            android:focusable="false"
+            android:clickable="false"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/playbtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/playbtn" />
+    </LinearLayout>
 </neural.imagerecognizer.app.ui.views.CheckableLinearLayout>
-
-

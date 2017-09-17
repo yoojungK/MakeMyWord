@@ -6,20 +6,42 @@ package neural.imagerecognizer.app.ui.views;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import neural.imagerecognizer.app.R;
+import neural.imagerecognizer.app.util.TTS;
 
 public class ListViewAdapter extends BaseAdapter {
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>() ;
+
+    private NaverTTSTask mNaverTTSTask;
+    private String[] mTextString;
+
+    String mmtext;
+
+    private class NaverTTSTask extends AsyncTask<String[], Void, String> {
+        @Override
+        protected String doInBackground(String[]... strings) {
+            TTS.main(mTextString);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+        }
+    }
 
     // ListViewAdapter의 생성자
     public ListViewAdapter() {
@@ -48,14 +70,30 @@ public class ListViewAdapter extends BaseAdapter {
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1) ;
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
         TextView descTextView = (TextView) convertView.findViewById(R.id.textView2) ;
+        Button playbtn = (Button) convertView.findViewById(R.id.playbtn);
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        ListViewItem listViewItem = listViewItemList.get(position);
+        final ListViewItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
         iconImageView.setImageDrawable(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getTitle());
         descTextView.setText(listViewItem.getDesc());
+
+       playbtn.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                mmtext = listViewItem.getTitle();
+                SystemClock.sleep(1000);
+
+                String mText = mmtext;
+                mTextString = new String[]{mText};
+
+                mNaverTTSTask = new NaverTTSTask();
+                mNaverTTSTask.execute(mTextString);
+
+            }
+        });
 
         return convertView;
     }
@@ -89,4 +127,3 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
 }
-
