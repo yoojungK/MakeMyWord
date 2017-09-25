@@ -1,27 +1,15 @@
 package neural.imagerecognizer.app.ui.activities;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 
-import com.desmond.squarecamera.CameraActivity;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
-import butterknife.Bind;
-import butterknife.OnClick;
 import neural.imagerecognizer.app.R;
-import neural.imagerecognizer.app.ui.views.PaintView;
 import neural.imagerecognizer.app.util.Tool;
-import android.app.Activity;
 
 public class SelectActivity extends BaseActivity {
 
@@ -35,6 +23,17 @@ public class SelectActivity extends BaseActivity {
                 requestPermission(new PermissionCallback() {
                     @Override
                     public void onPermissionGranted() {
+                        final Dialog camDialog = new Dialog(SelectActivity.this);
+                        camDialog.setContentView(R.layout.camera_layout);
+                        camDialog.setTitle("카메라 경고");
+                        Button cam_cancel = (Button) camDialog.findViewById(R.id.closeicon);
+
+                        cam_cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override public void onClick(View v) {
+                                camDialog.dismiss();
+                            }
+                        });
+                        camDialog.show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.putExtra("key", "cam");
                         startActivity(intent);
@@ -62,3 +61,4 @@ public class SelectActivity extends BaseActivity {
         });
     }
 }
+

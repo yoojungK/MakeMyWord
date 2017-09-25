@@ -61,7 +61,6 @@ import static neural.imagerecognizer.app.R.id.engtext;
 public class MainActivity extends BaseActivity {
 
 
-    int imgcount=3;
     public String ans[];
 
     private Intent i;
