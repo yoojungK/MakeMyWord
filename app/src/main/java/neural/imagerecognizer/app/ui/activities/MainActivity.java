@@ -161,7 +161,66 @@ public class MainActivity extends BaseActivity {
                 ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (object.getText().toString().trim().length() > 0 ) {
+                        if (object.getText().toString().equals("?")) {
+                            ans = msg.split(",");
+
+                            final Dialog checkDialog = new Dialog(MainActivity.this);
+                            checkDialog.setContentView(R.layout.check_layout);
+                            checkDialog.setTitle("정답 확인");
+
+                            Button sound = (Button) checkDialog.findViewById(R.id.soundbtn);
+                            Button save = (Button) checkDialog.findViewById(R.id.savebtn);
+                            final TextView aaobject = (TextView) checkDialog.findViewById(engtext);
+                            bbobject = (TextView) checkDialog.findViewById(R.id.kortext);
+
+                            String t = ans[0];
+
+                            NaverTranslateTask asyncTask = new NaverTranslateTask();
+                            asyncTask.execute(t);
+
+                            aaobject.append(t);
+
+                            sound.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mTextString = new String[]{ans[0]};
+
+                                    mNaverTTSTask = new NaverTTSTask();
+                                    mNaverTTSTask.execute(mTextString);
+                                }
+                            });
+
+                            save.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String filename = "/vocaimg_"+System.currentTimeMillis()+".jpg" ;
+
+                                    String sdPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+                                    sdPath += "/MMW";
+
+                                    try {
+
+                                        String data= ans[0] +"\n"+bbobject.getText().toString() + "\n" + sdPath + filename;
+
+                                        FileOutputStream fos=openFileOutput("data.txt", Context.MODE_APPEND);
+                                        PrintWriter writer= new PrintWriter(fos);
+
+                                        writer.println(data);
+                                        SaveFileToFileCache(recognBitmap,sdPath, filename);
+                                        writer.close();
+
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Toast.makeText(getApplicationContext(), ans[0] + " 저장 성공", Toast.LENGTH_LONG).show();
+                               }
+                                    });
+                            checkDialog.show();
+                            mDialog.dismiss();
+
+
+                        }
+                        else if (object.getText().toString().trim().length() > 0 ) {
 
                             ans = msg.split(",");
 
